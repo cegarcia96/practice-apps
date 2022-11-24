@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 const axios = require('axios');
 
-const AddWord = ({ setGlossaryData, setGlossaryDisplay }) => {
+const AddWord = ({ setGlossaryData, setGlossaryDisplay, searchText, handleSearch }) => {
 
   const [addForm, setAddForm] = useState({
     word: '',
@@ -10,13 +10,16 @@ const AddWord = ({ setGlossaryData, setGlossaryDisplay }) => {
 
   const handleAdd = (event) => {
     event.preventDefault();
+    if (addForm.word.length < 1 || addForm.definition.length < 1) {
+      return;
+    }
     axios.post('/words', {word: addForm.word, definition: addForm.definition})
     .then(() => {
       return axios.get('/words')
     })
     .then((response) => {
       setGlossaryData(response.data);
-      setGlossaryDisplay(response.data);
+      handleSearch(searchText, response.data);
     })
     .catch(error => {
       console.log(error);

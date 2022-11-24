@@ -1,14 +1,6 @@
 import {React, useState, useEffect} from 'react';
 
-const Search = ({ glossaryData, setGlossaryDisplay }) => {
-
-  const [searchText, setSearchText] = useState('');
-
-  const handleSearch = () => {
-    setGlossaryDisplay(glossaryData.filter((wordObject) => {
-      return wordObject.word.includes(searchText.toLowerCase());
-    }))
-  }
+const Search = ({ searchText, setSearchText, handleSearch, glossaryData }) => {
 
   return (
     <div className="search-div">
@@ -16,7 +8,7 @@ const Search = ({ glossaryData, setGlossaryDisplay }) => {
       type="text"
       placeholder="search..."
       onChange={(event) => setSearchText(event.target.value)}>
-      </input><button onClick={handleSearch}className="search-button">Search!</button>
+      </input><button onClick={() => handleSearch(searchText, glossaryData)}className="search-button">Search!</button>
     </div>
   )
 }

@@ -7,9 +7,15 @@ const axios = require('axios');
 const App = () => {
   const [glossaryData, setGlossaryData] = useState([]);
   const [glossaryDisplay, setGlossaryDisplay] = useState([]);
-  const [filteredGlossary, setFilteredGlossary] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
-  // Retrive word list on first load
+  const handleSearch = (searchText, data) => {
+    setGlossaryDisplay(data.filter((wordObject) => {
+      return wordObject.word.includes(searchText.toLowerCase());
+    }))
+  }
+
+  // Retrieve word list on first load
   useEffect(() => {
     axios.get('/words')
     .then(entries => {
@@ -22,9 +28,9 @@ const App = () => {
   return (
     <div>
       <h2>Glossary</h2>
-      <AddWord setGlossaryData={setGlossaryData} setGlossaryDisplay={setGlossaryDisplay}/>
-      <Search  glossaryData={glossaryData} setGlossaryDisplay={setGlossaryDisplay}/>
-      <WordList glossaryDisplay={glossaryDisplay} />
+      <AddWord setGlossaryData={setGlossaryData} setGlossaryDisplay={setGlossaryDisplay} searchText={searchText} handleSearch={handleSearch}/>
+      <Search  searchText={searchText} setSearchText={setSearchText} handleSearch={handleSearch} glossaryData={glossaryData} />
+      <WordList glossaryDisplay={glossaryDisplay} setGlossaryData={setGlossaryData} setGlossaryDisplay={setGlossaryDisplay} searchText={searchText} handleSearch={handleSearch}/>
     </div>
   );
 }

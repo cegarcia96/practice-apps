@@ -21,5 +21,17 @@ const getEntries = () => {
   return Entry.find({});
 }
 
-module.exports.save = save;
-module.exports.getEntries = getEntries;
+const updateEntry = (entry) => {
+  return Entry.updateOne({ _id: entry.word._id}, { definition: entry.newDefinition})
+}
+
+const deleteEntry = (entry) => {
+  return Entry.deleteOne({ _id: entry._id})
+}
+
+module.exports = {
+  save: save,
+  getEntries: getEntries,
+  updateEntry: updateEntry,
+  deleteEntry: deleteEntry
+}

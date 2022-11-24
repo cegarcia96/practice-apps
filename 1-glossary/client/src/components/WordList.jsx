@@ -1,6 +1,8 @@
 import {React, useState, useEffect} from 'react';
+import WordListEntry from './WordListEntry.jsx'
 
-const WordList = ({ glossaryDisplay }) => {
+const WordList = ({ glossaryDisplay, setGlossaryData, setGlossaryDisplay, searchText, handleSearch }) => {
+
   return (
     <div className="word-list">
       <table>
@@ -9,15 +11,9 @@ const WordList = ({ glossaryDisplay }) => {
             <th>Word</th>
             <th>Definition</th>
           </tr>
-          {glossaryDisplay.map((word, index) => {
-            return (
-              <tr key={index}>
-                <td>{word.word}</td>
-                <td>{word.definition}</td>
-                <td><button>Edit/delete</button></td>
-              </tr>
-            )
-          })}
+          {glossaryDisplay.map((word, index) => (
+            <WordListEntry key={index} word={word} setGlossaryData={setGlossaryData} setGlossaryDisplay={setGlossaryDisplay} searchText={searchText} handleSearch={handleSearch}/>
+          ))}
         </tbody>
       </table>
     </div>

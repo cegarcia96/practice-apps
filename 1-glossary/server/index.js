@@ -22,7 +22,7 @@ app.post('/words', (req, res) => {
     res.status(201).send('posted');
   })
   .catch(() => console.log('duplicate'))
-})
+});
 
 app.get('/words', (req, res) => {
   db.getEntries()
@@ -30,7 +30,27 @@ app.get('/words', (req, res) => {
     res.status(200).send(entries);
   })
   .catch(() => console.log('error getting entries'))
-})
+});
+
+app.patch('/words', (req, res) => {
+  db.updateEntry(req.body)
+  .then(() => {
+    res.status(201).send('patched');
+  })
+  .catch(() => {
+    console.log('Could not update')
+  })
+});
+
+app.delete('/words', (req, res) => {
+  db.deleteEntry(req.body)
+  .then(() => {
+    res.status(201).send('deleted');
+  })
+  .catch(() => {
+    console.log('Could not delete')
+  })
+});
 
 
 
