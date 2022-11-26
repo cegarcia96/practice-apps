@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const sessionHandler = require("./middleware/session-handler");
 const logger = require("./middleware/logger");
+const router = require("./routes.js")
+const cors = require("cors");
 
 // Establishes connection to the database on server start
 const db = require("./db");
@@ -16,16 +18,13 @@ app.use(sessionHandler);
 // Logs the time, session_id, method, and url of incoming requests.
 app.use(logger);
 
+app.use(cors());
+app.use(express.json());
+
+app.use("/responses", router);
+
 // Serves up all static and generated assets in ../client/dist.
 app.use(express.static(path.join(__dirname, "../client/dist")));
-
-/**** 
- * 
- * 
- * Other routes here....
- *
- * 
- */
 
 app.listen(process.env.PORT);
 console.log(`Listening at http://localhost:${process.env.PORT}`);
